@@ -8,10 +8,17 @@ public class LoginResponse {
 
     private String token;
 
+    private String name;
+
     private long expiresIn;
 
     public LoginResponse setUserId(Long userId) {
         this.userId = userId;
+        return this;
+    }
+
+    public LoginResponse setName(String name) {
+        this.name = name;
         return this;
     }
 
