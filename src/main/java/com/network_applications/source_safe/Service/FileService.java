@@ -187,9 +187,9 @@ public class FileService {
             throw  new ErrorResponseException("All files must be in FREE status to reserve them.");
         }
         files.forEach(file -> {
-            if (!hasPermissionToGetFile(file.getId(), userId)) {
-                throw new AccessDeniedException("You do not have permission to reserve this file: " + file.getId());
-            }
+//            if (!hasPermissionToGetFile(file.getId(), userId)) {
+//                throw new AccessDeniedException("You do not have permission to reserve this file: " + file.getId());
+//            }
             file.setFileStatus(File.FileStatus.RESERVED);
             String backupFilePath = backupFile(file.getFilePath(), BACKUP_FILE);
             UsageRecord usageRecord = UsageRecord.createRecord(user, file, UsageRecord.ActionType.RESERVE, backupFilePath);
