@@ -222,6 +222,7 @@ public class FileService {
 
             if (resource.exists() && resource.isReadable()) {
             file.setFileStatus(File.FileStatus.IN_USE);
+            fileRepository.save(file);
                 return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
                         .body(resource);
@@ -265,8 +266,8 @@ public class FileService {
 
         fileRepository.save(file);
 
-        String actionMessage = UsageRecord.ActionType.RELEASE.toString();
-        notificationService.notifyUsersAboutFileUpdate(file, actionMessage);
+//        String actionMessage = UsageRecord.ActionType.RELEASE.toString();
+//        notificationService.notifyUsersAboutFileUpdate(file, actionMessage);
 
         return "File updated and freed successfully.";
     }
