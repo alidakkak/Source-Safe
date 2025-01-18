@@ -54,7 +54,7 @@ public class File {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "file", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<UsageRecord> usageRecords = new HashSet<>();
 
     public enum FileStatus {

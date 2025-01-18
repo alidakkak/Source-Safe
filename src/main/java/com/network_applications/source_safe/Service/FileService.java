@@ -26,6 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -148,6 +149,11 @@ public class FileService {
 
         File file = fileRepository.findById(fileId)
                 .orElseThrow(() -> new NotFoundException("File not found: " + fileId));
+
+        Set<UsageRecord> usageRecords = file.getUsageRecords();
+        if (usageRecords != null) {
+            usageRecordRepository.deleteAll(usageRecords);
+        }
 
         deleteFileFromSystem(file.getFilePath());
         fileRepository.delete(file);
