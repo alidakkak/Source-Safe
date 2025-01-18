@@ -106,11 +106,23 @@ public class FileService {
             throw new AccessDeniedException("Access denied: You do not have access to this group.");
         }
 
+        if (isUserGroupAdmin(userId, groupId)) {
+            List<File> files = fileRepository.findByGroupId(groupId);
+            return files.stream()
+                    .map(FileResponseDto::fromFile)
+                    .collect(Collectors.toList());
+        }
+
         List<File> files = fileRepository.findByGroupId(groupId);
-        return files.stream()
+        List<File> approvedFiles = files.stream()
+                .filter(file -> file.getRequestStatus() == File.RequestStatus.APPROVED)
+                .collect(Collectors.toList());
+
+        return approvedFiles.stream()
                 .map(FileResponseDto::fromFile)
                 .collect(Collectors.toList());
     }
+
 
     public List<FileResponseDto> getFilePending(Authentication authentication, Long groupId) {
         User user = (User) authentication.getPrincipal();
